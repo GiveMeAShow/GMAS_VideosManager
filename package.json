@@ -1,0 +1,14 @@
+{
+  "name": "Icon",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    //"height": 300,
+//    "width": 300,
+    "frame" : true
+  },
+  "dependencies": {
+    "simplecrawler": "^0.3.6",
+    "file": "^0.2.2"
+  }
+}

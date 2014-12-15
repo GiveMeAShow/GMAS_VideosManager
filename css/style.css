@@ -1,0 +1,30 @@
+body {
+	height: 100%;
+}
+
+#filePresenterContainer
+{
+    /*position: fixed;*/
+    /*left: 0;*/
+    width: 200px;
+    display: inline-block;
+}
+
+#fileLoaderContainer
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+	border-radius: 6px;
+	border: 5px dashed #CCC;
+	text-align: center;
+	font-size: 25px;
+	font-family: sans-serif;
+    width: calc(100% - 400px);
+}
+
+#fileLoaderContainer.hover{
+	color:#8dd0ff;
+	border-color:#8dd0ff;
+}

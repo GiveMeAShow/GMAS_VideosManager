@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+{
+  "name": "something",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Axel COUTY",
+  "license": "BSD"
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	
+	<tabTrigger>package</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
