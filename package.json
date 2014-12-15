@@ -1,14 +1,21 @@
 {
-  "name": "Icon",
-  "main": "index.html",
-  "window": {
+  "name": "givemeashow",
+	"main": "index.html",
+	"window": {
     "toolbar": true,
-    //"height": 300,
-//    "width": 300,
     "frame" : true
   },
+  "version": "0.0.0",
   "dependencies": {
-    "simplecrawler": "^0.3.6",
+    "aws-sdk": "^2.1.2",
+	  "simplecrawler": "^0.3.6",
     "file": "^0.2.2"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-jshint": "~0.5.2",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-include-source": "^0.4.4"
   }
 }

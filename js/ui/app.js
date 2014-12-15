@@ -1,8 +1,10 @@
-var app = angular.module("app", ['FileLoader', 'FilePresenter', 'angularTreeview'])
+var app = angular.module("app", ['FileViewerModule','givemeashow.manager.file.services', 'FilePresenter', 'angularTreeview'])
+
 .constant("EVENTS", {
-        "FILES": {
-            "LOADED" : "LOADED"
-        }
+		"FILE":{
+			"LOADED" : "file.loaded",
+			"UPLOADED" : "file.uploaded"
+		}
 })
 .constant("FILES", {
     "FILE" : "FILE",

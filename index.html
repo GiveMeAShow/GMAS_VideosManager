@@ -4,33 +4,40 @@
 	<title></title>
 	<link rel="stylesheet" href="css/style.css">
 	
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="js/resources/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="js/resources/includeFirst/jquery-ui.css" rel="stylesheet" type="text/css">
+	<link href="js/resources/toaster.css" rel="stylesheet" type="text/css">
 	
-	<!-- JQUERY -->
-	<script src="js/resources/jquery-ui-1.10.3/js/jquery-1.9.1.js"></script>
-	<script src="js/resources/jquery-ui-1.10.3/js/jquery-ui-1.10.3.custom.min.js"></script>
-	
-	<!-- BOOTSTRAP -->
-	<link rel="stylesheet" href="js/resources/bootstrap-3.3.0-dist/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="js/resources/bootstrap-3.3.0-dist/dist/css/bootstrap-theme.min.css">
-	<script src="js/resources/bootstrap-3.3.0-dist/dist/js/bootstrap.min.js"></script>
-	
-	<!-- ANGULAR -->
-	<script src="js/resources/angular/angular.min.js"></script>
-	
-	<link rel="stylesheet" href="js/resources/angular/modules/angular.treeview-master/css/angular.treeview.css">
-	<script src="js/resources/angular/modules/angular.treeview-master/angular.treeview.js"></script>
-	
-	<script src="js/ui/FileLoader/FileLoader.js"></script>
-	<script src="js/ui/FilePresenter/FilePresenter.js"></script>
-	<script src="js/ui/app.js"></script>
+
 </head>
 <body ng-app="app">
     <div class="container-fluid">
         <div class="row" style="height:100%;">
             <file-presenter-raw></file-presenter-raw>
-            <file-loader-drop-zone></file-loader-drop-zone>
+            <file-viewer></file-viewer>
         </div>
     </div>
+<script src="js/resources/includeFirst/jquery.min.js"></script>
+<script src="js/resources/includeFirst/jquery-ui.min.js"></script>
+<script src="js/resources/includeFirst/angular.min.js"></script>
+<script src="js/ui/app.js"></script>
+    
+    
+<script src="js/resources/angular-animate.min.js"></script>
+<script src="js/resources/angular-resource.min.js"></script>
+<script src="js/resources/angular-route.min.js"></script>
+<script src="js/resources/angular-sanitize.min.js"></script>
+<script src="js/resources/angular.treeview.min.js"></script>
+<script src="js/resources/bootstrap.js"></script>
+<script src="js/resources/toaster.js"></script>
+<script src="js/resources/tweenmax.min.js"></script>
+
+<script src="js/ui/FileLoader/AWSFile.js"></script>
+<script src="js/ui/FileLoader/FileLoader.js"></script>
+<script src="js/ui/FilePresenter/FilePresenter.js"></script>
+<script src="js/ui/app.js"></script>
+    
 </body>
 
 </html>
