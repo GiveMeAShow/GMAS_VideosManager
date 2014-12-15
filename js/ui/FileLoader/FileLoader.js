@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['givemeashow.manager.file.services'])
+angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable'])
 
     .directive('fileViewer', function($compile) {
         return {
@@ -15,9 +15,13 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services'])
 
     .controller('fileViewerController', ['$scope', '$rootScope', 'EVENTS', 'FileService',
     	function($scope, $rootScope, EVENTS, FileService) {
+		$scope.files = [];
+
+		$scope.$on(EVENTS.FILE.LOADED, function(event, file) {
+			$scope.files.push(file);
 			
-           $scope.$on(EVENTS.FILE.LOADED, function(event, file) {
-			  console.log(file); 
-		   });
+			$scope.$apply();
+			console.log($scope.files);
+		});
 			
     }]);

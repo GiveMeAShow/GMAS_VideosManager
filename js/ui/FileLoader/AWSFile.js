@@ -27,12 +27,6 @@ angular.module("givemeashow.manager.file.services", [])
 			}
 		});
 		
-		/*_s3.listBuckets(function(err, data) {
-		  for (var index in data.Buckets) {
-			var bucket = data.Buckets[index];
-			console.log("Bucket: ", bucket.Name, ' : ', bucket.CreationDate);
-		  }
-		});*/
 		
 		File.list = function() {
 			

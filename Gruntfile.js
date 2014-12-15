@@ -31,6 +31,12 @@ module.exports = function (grunt) {
 					flatten: true
                 },{
                     expand: true,
+                    cwd: 'bower_components/ng-table/',
+					src: ['ng-table.min.js', 'ng-table.min.css'],
+                    dest: '<%= config.dist %>',
+					flatten: true
+                },{
+                    expand: true,
                     src: 'bower_components/angularjs-toaster/toaster*',
                     dest: '<%= config.dist %>',
 					flatten: true
