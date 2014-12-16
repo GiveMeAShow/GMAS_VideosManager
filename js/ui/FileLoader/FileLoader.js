@@ -71,20 +71,21 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 		}
 		
 		$scope.parentFile = {};
+		$scope.visited = [];
 			
-		$scope.move = function(dir)
+		$scope.move = function(dir, back)
 		{
 			while($scope.localFilesVisible.length > 0) {
     			$scope.localFilesVisible.pop();
 			}
-			
-			
-			if(dir.name != $scope.localRoot.name)
+			if(back)
 			{
-				var f = {};
-				f = $scope.parentFile;
-				f.back = true;
-				$scope.localFilesVisible.push(f);
+				dir = $scope.visited.pop();
+			}
+			else
+			{
+				$scope.visited.push($scope.parentFile);
+				
 			}
 			for(var i = 0; i < dir.children.length; i ++)
 			{
@@ -101,8 +102,6 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 					f.name = dir.children[i].name;
 					f.path = dir.children[i].path.replace($scope.localRoot, '');
 				}
-				
-				console.log(f);
 				$scope.localFilesVisible.push(f);
 			}
 			$scope.tableParams.reload();
