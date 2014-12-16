@@ -70,9 +70,49 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 			
 		}
 		
+		$scope.parentFile = {};
+			
+		$scope.move = function(dir)
+		{
+			while($scope.localFilesVisible.length > 0) {
+    			$scope.localFilesVisible.pop();
+			}
+			
+			
+			if(dir.name != $scope.localRoot.name)
+			{
+				var f = {};
+				f = $scope.parentFile;
+				f.back = true;
+				$scope.localFilesVisible.push(f);
+			}
+			for(var i = 0; i < dir.children.length; i ++)
+			{
+				var f = {};
+				f.name = dir.children[i].name;
+				f.path = dir.children[i].path;
+				f.selected = false;
+				if(dir.children[i].children)
+				{
+					f.children = dir.children[i].children;
+				}
+				else
+				{
+					f.name = dir.children[i].name;
+					f.path = dir.children[i].path.replace($scope.localRoot, '');
+				}
+				
+				console.log(f);
+				$scope.localFilesVisible.push(f);
+			}
+			$scope.tableParams.reload();
+			$scope.parentFile = dir;
+		}
+		
+		
+		
 		var walk = function(file)
 		{
-			
 			for(var i = 0; i < file.length; i ++)
 			{
 				var f = {};
@@ -93,16 +133,22 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 					$scope.localFiles.push(f);
 				}
 			}
-			
 		}
 		
 		$scope.loader = { loading: false, total : 0 };
+		$scope.localFilesVisible = [];
 		
 		$scope.$on(EVENTS.FILES.LOADED, function(event, files) {
 			$scope.localEmpty =  false;
 			$scope.loader.loading = true;
 			$scope.localFiles = [];
-			var file = walk(files.children);
+			
+			$scope.localRoot = files;
+			$scope.parentFile = $scope.localRoot;
+			$scope.move(files);
+			$scope.tableParams.reload();
+			
+			//var file = walk(files.children);
 			
 			$scope.loader.total = $scope.localFiles.length;
 			$scope.loader.loading = false;
@@ -135,12 +181,12 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 			}
 		});
 		
-		$scope.$watch("loader", function () {
+		/*$scope.$watch("loader", function () {
 			if(!$scope.loader.loading)
 			{
         		$scope.tableParams.reload();
 			}
-    	}, true); 
+    	}, true); */
 			
 		$scope.tableParams = new ngTableParams({
 			page: 1,            // show first page
@@ -151,11 +197,11 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 		}, {
 			total: function () { return getData().length; }, // length of data
 			getData: function($defer, params) {
-				var filteredData = $scope.localFiles;
+				var filteredData = $scope.localFilesVisible;
 				var orderedData = params.sorting() ?
 									$filter('orderBy')(filteredData, params.orderBy()) :
 									filteredData;
-				params.total($scope.localFiles.length);
+				params.total($scope.localFilesVisible.length);
 				if (orderedData.length <= params.count())
 				{
 					$defer.resolve(orderedData);
