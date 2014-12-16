@@ -1,7 +1,24 @@
-<div id="fileLoaderContainer">
-	<table ng-table class="table">
-		<tr ng-repeat="file in files">
-			<td data-title="'Name'">{{file.name}}</td>
-		</tr>
-	</table>
+<div class="centerContainer">
+	<div ng-hide="contents[0]" ng-class="{fileLoaderContainer : true, dashed : localEmpty, hover : loaderOver }">
+		{{message}}
+		<div ng-hide="!localEmpty">
+		
+		</div>
+		<div ng-hide="localEmpty">
+			<table ng-table="tableParams" class="table"  >
+				<tr ng-repeat="file in $data" ng-click="select(file)" ng-class="{tableRow : true}">
+					<td data-title="'Name'" sortable="name">{{file.name}}</td>
+					<td data-title="'Type'" ng-if="file.children">true</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div ng-hide="contents[1]">
+		<table ng-table class="table">
+			<tr ng-repeat="file in serverFiles">
+				<td data-title="'Name'">{{file.name}}</td>
+			</tr>
+		</table>
+	</div>
+	
 </div>

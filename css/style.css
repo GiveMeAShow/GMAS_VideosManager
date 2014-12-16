@@ -10,21 +10,55 @@ body {
     display: inline-block;
 }
 
-#fileLoaderContainer
+.tableRow:hover
+{
+	background-color: darkgray;
+}
+
+.menuItem
+{
+	height: 100px;
+	line-height: 100px;
+	vertical-align: center;
+	text-align: center;
+}
+
+.menuItem:hover
+{
+	background-color: #EDEDED;
+}
+
+.menuItem.active
+{
+	background-color: #D9D9D9;
+}
+
+.centerContainer
 {
     position: absolute;
     top: 0;
     bottom: 0;
     display: inline-block;
 	border-radius: 6px;
-	
-	text-align: center;
-	font-size: 25px;
-	font-family: sans-serif;
     width: calc(100% - 400px);
 }
 
-#fileLoaderContainer.hover{
+.fileLoaderContainer
+{
+	position: relative;
+    top: 0;
+    bottom: 0;
+	text-align: left;
+	font-family: sans-serif;
+	height: 100%;
+}
+
+.dashed
+{
+	border: 5px dashed #CCC;
+}
+
+.fileLoaderContainer.hover{
 	color:#8dd0ff;
 	border-color:#8dd0ff;
 }

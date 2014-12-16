@@ -7,23 +7,47 @@ angular.module("FilePresenter", ['angularTreeview', 'givemeashow.manager.file.se
             controller: 'FilePresenterRawController',
             replace: true, // Replace with the template below
             link: function(scope, element, attrs) {
-               
+
         },
         templateUrl: 'js/ui/FilePresenter/FilePresenterRaw.html'
       };
     })
 
-    .controller('FilePresenterRawController', ['$scope', 'EVENTS', '$q', 'FileService',
-    	function($scope, EVENTS,  $q, FileService) {
-            $scope.tree = {};
-            $scope.tree.name = "fileTree";
-            $scope.tree.files = [];
-            
-            $scope.add = function()
-            {
-                console.log("coucou");
-                $scope.tree.files.push({name:"lol", id:47, children : [{name : "caca", id:56}]});
-            }
+    .controller('FilePresenterRawController', ['$scope', 'EVENTS', 'MENUS', '$q', '$rootScope', 'FileService',
+    	function($scope, EVENTS, MENUS, $q, $rootScope, FileService) {
+			$scope.menus = [];
+			for (var i = 0; i < MENUS.LIST.length; i++)
+			{
+				var menu = MENUS.LIST[i];
+				if (i == 0)
+				{
+					menu.selected = true;	
+				}
+				else
+				{
+					menu.selected = false;
+				}
+				
+				$scope.menus.push(menu)
+			}
+			console.log($scope.menus);
+			
+			
+           $scope.select = function(menu)
+		   {
+			   for(var i = 0; i < $scope.menus.length; i++)
+			   {
+				   if($scope.menus[i].event === menu)
+				   {
+					   $scope.menus[i].selected = true;
+					   $rootScope.$broadcast(EVENTS.MENU.CHANGED, menu);
+				   }
+				   else
+				   {
+					   $scope.menus[i].selected = false;
+				   }
+			   }
+		   }
             
            
     }]);

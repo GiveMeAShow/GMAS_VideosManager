@@ -4,11 +4,27 @@ var app = angular.module("app", ['ngTable', 'FileViewerModule','givemeashow.mana
 		"FILE":{
 			"LOADED" : "file.loaded",
 			"UPLOADED" : "file.uploaded"
+		},
+		"FILES" : {
+			"REPLACE" : "files.replace"
+		},
+		"MENU" : {
+			"CHANGED" : "menu.changed"
 		}
 })
+
 .constant("FILES", {
     "FILE" : "FILE",
     "DIRECTORY" : "DIRECTORY"
+})
+
+.constant("MENUS", {
+	"HOME" : "HOME",
+	"SERVER" : "SERVER",
+	"LIST" : [
+		{"name": "Home", "event" : "HOME"},
+		{"name" :"Server", "event" : "SERVER"}
+	]
 });
 
 /*var path = require('path');*/
