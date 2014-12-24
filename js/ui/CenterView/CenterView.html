@@ -2,4 +2,12 @@
     <menu-bar></menu-bar>   
     
     <file-viewer ng-hide="contents[0]"></file-viewer>
+    
+    <div class="centerContainer" ng-hide="contents[1]">
+        <table ng-table class="table">
+            <tr ng-repeat="file in serverFiles">
+                <td data-title="'Name'">{{file.name}}</td>
+            </tr>
+        </table>
+    </div>
 </div>

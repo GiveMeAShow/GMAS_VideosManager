@@ -52,8 +52,8 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
       };
     })
 
-    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'FileService', 'LocalFileLoader', 'ngTableParams', 'FileProvider',
-    	function($scope, $filter, $rootScope, EVENTS, MENUS, FileService, LocalFileLoader, ngTableParams, FileProvider) {
+    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'LocalFileLoader', 'ngTableParams', 'FileProvider',
+    	function($scope, $filter, $rootScope, EVENTS, MENUS, LocalFileLoader, ngTableParams, FileProvider) {
         var FP = new FileProvider();
 		$scope.serverFiles = [];
 		$scope.localFiles = [];
@@ -61,7 +61,7 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 		$scope.localEmpty =  true;
 			
 		$scope.loadFiles = function (files) {
-			LocalFile.loadFiles(files, $scope.files);
+			LocalFileLoader.loadFiles(files, $scope.files);
         }
 		
 		$scope.parentFile = {};
