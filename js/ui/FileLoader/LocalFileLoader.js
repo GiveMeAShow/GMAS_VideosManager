@@ -79,7 +79,8 @@ angular.module("LocalFileLoaderModule", [])
             var stats = self.fileSystem.lstatSync(filename),
                 info = {
                     path: filename,
-                    name: self.pathModule.basename(filename)
+                    name: self.pathModule.basename(filename),
+                    errors : []
                 };
             
             if (stats.isDirectory()) {

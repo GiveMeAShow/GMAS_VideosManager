@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileLoaderModule'])
+angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileLoaderModule', 'ErrorComputerModule'])
 
     .directive('fileViewer', function($compile) {
         return {
@@ -52,9 +52,10 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
       };
     })
 
-    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'LocalFileLoader', 'ngTableParams', 'FileProvider',
-    	function($scope, $filter, $rootScope, EVENTS, MENUS, LocalFileLoader, ngTableParams, FileProvider) {
+    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'LocalFileLoader', 'ngTableParams', 'FileProvider', 'ErrorComputer',
+    	function($scope, $filter, $rootScope, EVENTS, MENUS, LocalFileLoader, ngTableParams, FileProvider, ErrorComputer) {
         var FP = new FileProvider();
+        FP.setErrorComputer(ErrorComputer);
 		$scope.serverFiles = [];
 		$scope.localFiles = [];
 		$scope.localRoot = "";
@@ -72,7 +73,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
             $scope.format(FP.moveBack());
         }
 			
-		$scope.move = function(childIndex, back)
+		$scope.move = function(childIndex)
 		{
             $scope.format(FP.move(childIndex));
 		}
@@ -98,6 +99,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 				var f = {};
 				f.name = dir.children[i].name;
 				f.path = dir.children[i].path;
+                f.errors = dir.children[i].errors;
 				f.selected = false;
 				if(dir.children[i].children)
 				{
@@ -112,7 +114,6 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 				}
 				$scope.localFilesVisible.push(f);
 			}
-            console.log($scope.localFilesVisible);
 			$scope.tableParams.reload();
 			$scope.parentFile = dir;
         }
