@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable', 'FileProviderModule', 'LocalFileLoaderModule'])
+angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileLoaderModule'])
 
     .directive('fileViewer', function($compile) {
         return {

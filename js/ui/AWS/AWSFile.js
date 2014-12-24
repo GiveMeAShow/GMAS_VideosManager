@@ -1,6 +1,6 @@
-angular.module("givemeashow.manager.file.services", [])
+angular.module("amazon.services", [])
 
-    .factory("FileService", ['$http', '$rootScope', 'EVENTS', function($http, $rootScope, EVENTS) {
+    .factory("AmazonFiles", ['$http', '$rootScope', 'EVENTS', function($http, $rootScope, EVENTS) {
         
 		var File = {};
 		var _aws = require('aws-sdk');

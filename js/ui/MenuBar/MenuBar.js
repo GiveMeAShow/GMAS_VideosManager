@@ -1,4 +1,4 @@
-angular.module("MenuBarModule", ['angularTreeview', 'givemeashow.manager.file.services'])
+angular.module("MenuBarModule", ['angularTreeview'])
 
     .directive('menuBar', function($compile) {
         return {
@@ -13,8 +13,8 @@ angular.module("MenuBarModule", ['angularTreeview', 'givemeashow.manager.file.se
       };
     })
 
-    .controller('MenuBarController', ['$scope', 'EVENTS', 'MENUS', '$q', '$rootScope', 'FileService',
-    	function($scope, EVENTS, MENUS, $q, $rootScope, FileService) {
+    .controller('MenuBarController', ['$scope', 'EVENTS', 'MENUS', '$q', '$rootScope',
+    	function($scope, EVENTS, MENUS, $q, $rootScope) {
 			$scope.menus = [];
 			for (var i = 0; i < MENUS.LIST.length; i++)
 			{
