@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngTable', 'FileViewerModule','givemeashow.manager.file.services', 'FilePresenter', 'angularTreeview'])
+var app = angular.module("app", ['ngTable', 'CenterViewModule', 'givemeashow.manager.file.services', 'angularTreeview'])
 
 .constant("EVENTS", {
 		"FILE":{

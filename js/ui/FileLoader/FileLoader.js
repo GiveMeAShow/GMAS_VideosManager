@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable', 'FileProviderModule'])
+angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable', 'FileProviderModule', 'LocalFileLoaderModule'])
 
     .directive('fileViewer', function($compile) {
         return {
@@ -52,15 +52,13 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
       };
     })
 
-    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'FileService', 'LocalFile', 'ngTableParams', 'FileProvider',
-    	function($scope, $filter, $rootScope, EVENTS, MENUS, FileService, LocalFile, ngTableParams, FileProvider) {
+    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'FileService', 'LocalFileLoader', 'ngTableParams', 'FileProvider',
+    	function($scope, $filter, $rootScope, EVENTS, MENUS, FileService, LocalFileLoader, ngTableParams, FileProvider) {
         var FP = new FileProvider();
 		$scope.serverFiles = [];
 		$scope.localFiles = [];
 		$scope.localRoot = "";
 		$scope.localEmpty =  true;
-			
-		$scope.contents = [false, true];
 			
 		$scope.loadFiles = function (files) {
 			LocalFile.loadFiles(files, $scope.files);
@@ -142,26 +140,7 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 			console.log($scope.files);
 		});
 
-        //TODO : Externalize into another controller ? Set views ? :)
-		$scope.$on(EVENTS.MENU.CHANGED, function(event, menu) {
-			if (menu == MENUS.HOME)
-			{
-				for (var i = 0; i < $scope.contents.length; i++)
-				{
-					$scope.contents[i] = true;
-				}
-				$scope.contents[0] = false;
-			}
-			else if (menu == MENUS.SERVER)
-			{
-				for (var i = 0; i < $scope.contents.length; i++)
-				{
-						$scope.contents[i] = true;
-				}
-				$scope.contents[1] = false;
-			}
-		});
-			
+        
 		$scope.tableParams = new ngTableParams({
 			page: 1,            // show first page
 			count: 10,          // count per page

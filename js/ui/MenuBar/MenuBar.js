@@ -1,19 +1,19 @@
-angular.module("FilePresenter", ['angularTreeview', 'givemeashow.manager.file.services'])
+angular.module("MenuBarModule", ['angularTreeview', 'givemeashow.manager.file.services'])
 
-    .directive('filePresenterRaw', function($compile) {
+    .directive('menuBar', function($compile) {
         return {
             restrict: 'E',
             scope: {},
-            controller: 'FilePresenterRawController',
+            controller: 'MenuBarController',
             replace: true, // Replace with the template below
             link: function(scope, element, attrs) {
 
         },
-        templateUrl: 'js/ui/FilePresenter/FilePresenterRaw.html'
+        templateUrl: 'js/ui/MenuBar/MenuBar.html'
       };
     })
 
-    .controller('FilePresenterRawController', ['$scope', 'EVENTS', 'MENUS', '$q', '$rootScope', 'FileService',
+    .controller('MenuBarController', ['$scope', 'EVENTS', 'MENUS', '$q', '$rootScope', 'FileService',
     	function($scope, EVENTS, MENUS, $q, $rootScope, FileService) {
 			$scope.menus = [];
 			for (var i = 0; i < MENUS.LIST.length; i++)
