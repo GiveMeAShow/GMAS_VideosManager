@@ -40,7 +40,16 @@ body {
     bottom: 0;
     display: inline-block;
 	border-radius: 6px;
-    width: calc(100% - 400px);
+    width: calc(100% - 600px);
+}
+
+.rightContainer
+{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    width: 400px;
+    right: 0;
 }
 
 .fileLoaderContainer

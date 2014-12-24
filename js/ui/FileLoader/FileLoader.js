@@ -70,12 +70,19 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
             
         $scope.moveBack = function()
         {
-            $scope.format(FP.moveBack());
+            var f = FP.moveBack();
+            $scope.format(f);
+            $rootScope.$broadcast(EVENTS.FILE.CHANGE, f);
         }
 			
 		$scope.move = function(childIndex)
 		{
-            $scope.format(FP.move(childIndex));
+            var f = FP.move(childIndex);
+            if(f.children)
+            {
+                $scope.format(f);
+            }
+            $rootScope.$broadcast(EVENTS.FILE.CHANGE, f);
 		}
         
         $scope.format = function (dir)

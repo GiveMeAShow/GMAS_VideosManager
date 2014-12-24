@@ -45,8 +45,15 @@ angular.module("FileProviderModule", [])
 
         this.move = function(childIndex)
         {
-            _visited.push(_position);
-            _position = _position.children[childIndex];
+            if (_position.children && _position.children[childIndex].children)
+            {
+                _visited.push(_position);
+                _position = _position.children[childIndex];    
+            }
+            else
+            {
+                return _position.children[childIndex]; 
+            }
             return _position;
         }     
     };

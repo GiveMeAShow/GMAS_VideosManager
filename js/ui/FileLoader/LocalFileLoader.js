@@ -80,7 +80,8 @@ angular.module("LocalFileLoaderModule", [])
                 info = {
                     path: filename,
                     name: self.pathModule.basename(filename),
-                    errors : []
+                    errors : [],
+                    rules : []
                 };
             
             if (stats.isDirectory()) {

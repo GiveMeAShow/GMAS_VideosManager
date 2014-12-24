@@ -3,7 +3,8 @@ var app = angular.module("app", ['ngTable', 'CenterViewModule', 'angularTreeview
 .constant("EVENTS", {
 		"FILE":{
 			"LOADED" : "file.loaded",
-			"UPLOADED" : "file.uploaded"
+			"UPLOADED" : "file.uploaded",
+            "CHANGE" : "file.changed"
 		},
 		"FILES" : {
 			"REPLACE" : "files.replace"

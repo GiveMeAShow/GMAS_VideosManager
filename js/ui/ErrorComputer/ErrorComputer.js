@@ -50,7 +50,6 @@ angular.module("ErrorComputerModule", [])
                 {
                     var showFile = rootFile.children[i];
                     var showName = showFile.name;
-                    _checkForDirt(showFile);
                     var showDirErrorCount = 0;
                     for (var j = 0; j < showFile.children.length; j ++)
                     {
