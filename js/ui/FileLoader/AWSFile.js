@@ -4,7 +4,7 @@ angular.module("givemeashow.manager.file.services", [])
         
 		var File = {};
 		var _aws = require('aws-sdk');
-		_aws.config.update({accessKeyId: 'AKIAIJF2JQJBD75ZRITA', secretAccessKey: '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'});
+		_aws.config.update({accessKeyId: 'AKIAJSHTIKIM5SE2M25A', secretAccessKey: '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'});
 		_aws.config.update({region: 'eu-west-1'});
 		var _s3 = new _aws.S3();
 		
@@ -13,7 +13,7 @@ angular.module("givemeashow.manager.file.services", [])
 		var params = {
 		  Bucket: 'givemeashowvideos'
 		};
-		_s3.listObjects(params, function(err, data) {
+		/*_s3.listObjects(params, function(err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
 			else                // successful response
 			{
@@ -25,7 +25,7 @@ angular.module("givemeashow.manager.file.services", [])
 					$rootScope.$broadcast(EVENTS.FILE.LOADED, file);
 				}
 			}
-		});
+		});*/
 		
 		
 		File.list = function() {
@@ -106,7 +106,6 @@ angular.module("givemeashow.manager.file.services", [])
         {
             console.log("Extracting files for node");
             var fileTree = self.dirTree(files);
-            console.log(fileTree);
             $rootScope.$broadcast(EVENTS.FILES.LOADED, fileTree);
         }
         this.fileId = 0;

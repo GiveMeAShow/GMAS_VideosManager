@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable'])
+angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTable', 'FileProviderModule'])
 
     .directive('fileViewer', function($compile) {
         return {
@@ -52,8 +52,9 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
       };
     })
 
-    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'FileService', 'LocalFile', 'ngTableParams',
-    	function($scope, $filter, $rootScope, EVENTS, MENUS, FileService, LocalFile, ngTableParams) {
+    .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'FileService', 'LocalFile', 'ngTableParams', 'FileProvider',
+    	function($scope, $filter, $rootScope, EVENTS, MENUS, FileService, LocalFile, ngTableParams, FileProvider) {
+        var FP = new FileProvider();
 		$scope.serverFiles = [];
 		$scope.localFiles = [];
 		$scope.localRoot = "";
@@ -65,29 +66,36 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 			LocalFile.loadFiles(files, $scope.files);
         }
 		
-		$scope.select = function(file)
-		{
-			
-		}
-		
 		$scope.parentFile = {};
 		$scope.visited = [];
+            
+        $scope.moveBack = function()
+        {
+            $scope.format(FP.moveBack());
+        }
 			
-		$scope.move = function(dir, back)
+		$scope.move = function(childIndex, back)
 		{
-			while($scope.localFilesVisible.length > 0) {
+            $scope.format(FP.move(childIndex));
+		}
+        
+        $scope.format = function (dir)
+        {
+            while($scope.localFilesVisible.length > 0) {
     			$scope.localFilesVisible.pop();
 			}
-			if(back)
-			{
-				dir = $scope.visited.pop();
-			}
-			else
-			{
-				$scope.visited.push($scope.parentFile);
-				
-			}
-			for(var i = 0; i < dir.children.length; i ++)
+            
+            if (dir.root)
+            {
+                $scope.isRoot = true;
+            }
+            else
+            {
+              $scope.isRoot = false;  
+            }
+            
+            
+            for(var i = 0; i < dir.children.length; i ++)
 			{
 				var f = {};
 				f.name = dir.children[i].name;
@@ -96,61 +104,34 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 				if(dir.children[i].children)
 				{
 					f.children = dir.children[i].children;
+                    f.dir = true;
 				}
 				else
 				{
+                    f.dir = false;
 					f.name = dir.children[i].name;
 					f.path = dir.children[i].path.replace($scope.localRoot, '');
 				}
 				$scope.localFilesVisible.push(f);
 			}
+            console.log($scope.localFilesVisible);
 			$scope.tableParams.reload();
 			$scope.parentFile = dir;
-		}
+        }
 		
-		
-		
-		var walk = function(file)
-		{
-			for(var i = 0; i < file.length; i ++)
-			{
-				var f = {};
-				f.name = file[i].name;
-				f.path = file[i].path;
-				f.selected = false;
-				if(file[i].children)
-				{
-					f.children = file[i].children;
-					$scope.localFiles.push(f);
-					walk(file[i].children);
-				}
-				else
-				{
-					var f = {};
-					f.name = file[i].name;
-					f.path = file[i].path.replace($scope.localRoot, '');
-					$scope.localFiles.push(f);
-				}
-			}
-		}
-		
-		$scope.loader = { loading: false, total : 0 };
 		$scope.localFilesVisible = [];
 		
+        // when localfiles are loaded
 		$scope.$on(EVENTS.FILES.LOADED, function(event, files) {
+            $scope.format(FP.setFiles(files));
+            
+            
 			$scope.localEmpty =  false;
-			$scope.loader.loading = true;
 			$scope.localFiles = [];
 			
 			$scope.localRoot = files;
 			$scope.parentFile = $scope.localRoot;
-			$scope.move(files);
 			$scope.tableParams.reload();
-			
-			//var file = walk(files.children);
-			
-			$scope.loader.total = $scope.localFiles.length;
-			$scope.loader.loading = false;
 			$scope.$apply();
 		})
 
@@ -160,7 +141,8 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 			$scope.$apply();
 			console.log($scope.files);
 		});
-			
+
+        //TODO : Externalize into another controller ? Set views ? :)
 		$scope.$on(EVENTS.MENU.CHANGED, function(event, menu) {
 			if (menu == MENUS.HOME)
 			{
@@ -179,13 +161,6 @@ angular.module("FileViewerModule", ['givemeashow.manager.file.services', 'ngTabl
 				$scope.contents[1] = false;
 			}
 		});
-		
-		/*$scope.$watch("loader", function () {
-			if(!$scope.loader.loading)
-			{
-        		$scope.tableParams.reload();
-			}
-    	}, true); */
 			
 		$scope.tableParams = new ngTableParams({
 			page: 1,            // show first page

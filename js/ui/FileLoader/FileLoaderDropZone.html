@@ -6,21 +6,15 @@
 		</div>
 		<div ng-hide="localEmpty">
 			<table ng-table="tableParams" class="table">
-				<tr ng-click="move(eaze, true)" ng-class="{tableRow : true}"
-					ng-if="visited.length > 1">
+				<tr ng-click="moveBack()" ng-class="{tableRow : true}"
+					ng-if="!isRoot">
 					<td data-title="'Name'" sortable="name">...</td>
 					<td data-title="'Type'">true</td>
 				</tr>
-			
-				<tr ng-repeat="file in $data" ng-click="move(file, false)" ng-class="{tableRow : true}"
-					ng-if="file.children && !file.back">
-					<td data-title="'Name'" sortable="name">{{file.name}}</td>
-					<td data-title="'Type'">true</td>
-				</tr>
 				
-				<tr ng-repeat="file in $data" ng-click="select(file)" ng-class="{tableRow : true}"  ng-if="!file.children">
-					<td data-title="'Name'" sortable="name">{{file.name}}</td>
-					<td data-title="'Type'">false</td>
+				<tr ng-repeat="file in $data" ng-click="move($index)" ng-class="{tableRow : true}">
+                        <td data-title="'Name'" sortable="name">{{file.name}}</td>
+                        <td data-title="'Type'">{{file.dir}}</td>
 				</tr>
 			</table>
 		</div>
