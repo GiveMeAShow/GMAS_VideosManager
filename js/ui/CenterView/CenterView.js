@@ -1,4 +1,4 @@
-angular.module("CenterViewModule", ['MenuBarModule', 'FileViewerModule', 'RulesModule'])
+angular.module("CenterViewModule", ['MenuBarModule', 'FileViewerModule', 'RulesModule', 'FileStatusModule'])
 
 .directive("centerView", [function() {
     return {

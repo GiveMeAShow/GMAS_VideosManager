@@ -130,7 +130,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
         // when localfiles are loaded
 		$scope.$on(EVENTS.FILES.LOADED, function(event, files) {
             $scope.format(FP.setFiles(files));
-            
+            $rootScope.$broadcast(EVENTS.FILE.CHANGE, files);
             
 			$scope.localEmpty =  false;
 			$scope.localFiles = [];

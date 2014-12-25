@@ -1,9 +1,10 @@
 <div>
     <menu-bar></menu-bar>   
-    
+    <file-status-bar></file-status-bar>
     <file-viewer ng-hide="contents[0]"></file-viewer>
+    <rules-viewer ng-hide="contents[0]" class="rightContainer"></rules-viewer>
     
-    <!-- need a server file viewer, howto ? :) -->
+     <!--need a server file viewer, howto ? :)--> 
     <div class="centerContainer" ng-hide="contents[1]">
         <table ng-table class="table">
             <tr ng-repeat="file in serverFiles">
@@ -12,5 +13,4 @@
         </table>
     </div>
     
-    <rules-viewer class="rightContainer"></rules-viewer>
 </div>
