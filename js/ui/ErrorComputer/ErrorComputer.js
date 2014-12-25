@@ -55,7 +55,7 @@ angular.module("ErrorComputerModule", [])
                     {
                         var seasonFile = showFile.children[j];
                         var showDirErrorCount = _checkForDirt(seasonFile);
-                        for (var k = 0; k < seasonFile.children.length; k++)
+                        for (var k = 0;seasonFile.children && k < seasonFile.children.length; k++)
                         {
                             var langFile = seasonFile.children[k];
                             var lang = langFile.name;

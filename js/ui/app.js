@@ -7,7 +7,8 @@ var app = angular.module("app", ['ngTable', 'CenterViewModule', 'angularTreeview
             "CHANGE" : "file.changed"
 		},
 		"FILES" : {
-			"REPLACE" : "files.replace"
+			"REPLACE" : "files.replace",
+            "UPDATED" : "files.updated"
 		},
 		"MENU" : {
 			"CHANGED" : "menu.changed"

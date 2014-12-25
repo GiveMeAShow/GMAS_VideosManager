@@ -1,61 +1,74 @@
 angular.module("FileProviderModule", [])
 
 .factory("FileProvider", ['$rootScope', 'EVENTS', function($rootScope, EVENTS){
-    var FileProvider = function() {
-        var _ErrorComputer;
+    var FileProvider = {};
+    
+    var _ErrorComputer;
 
-        var _files = {};
-        var _position = {};
+    var _files = {};
+    var _position = {};
 
-        var _visited = [];
+    var _visited = [];
         
-        this.setFiles = function(files)
+    FileProvider.setFiles = function(files)
+    {
+        _files = files;
+        _files.root = true;
+        _position = _files;
+        if (_ErrorComputer)
         {
-            _files = files;
-            _files.root = true;
-            _position = _files;
-            if (_ErrorComputer)
-            {
-                _ErrorComputer.computeErrors(_files);
-            }
-            return _position;
+            _ErrorComputer.computeErrors(_files);
         }
+        return _position;
+    }
 
-        this.setErrorComputer = function(ErrorComputer)
+    FileProvider.setErrorComputer = function(ErrorComputer)
+    {
+        _ErrorComputer = ErrorComputer; 
+    }
+
+    FileProvider.addFile = function(file)
+    {
+        _files.push(file);
+    }
+
+
+    FileProvider.getCurrent = function()
+    {
+        return _position;
+    }
+
+    FileProvider.moveBack = function()
+    {
+        _position = _visited.pop();
+        return _position;
+    }
+    
+    FileProvider.setFileName = function(name, index)
+    {
+        if (index != undefined)
         {
-            _ErrorComputer = ErrorComputer; 
+            _position.children[index].name = name;
         }
-
-        this.addFile = function(file)
+        else
         {
-            _files.push(file);
+            _position.name = name;
         }
+    }
 
-
-        this.getCurrent = function()
+    FileProvider.move = function(childIndex)
+    {
+        if (_position.children && _position.children[childIndex].children)
         {
-            return _position;
+            _visited.push(_position);
+            _position = _position.children[childIndex];    
         }
-        
-        this.moveBack = function()
+        else
         {
-            _position = _visited.pop();
-            return _position;
+            return _position.children[childIndex]; 
         }
-
-        this.move = function(childIndex)
-        {
-            if (_position.children && _position.children[childIndex].children)
-            {
-                _visited.push(_position);
-                _position = _position.children[childIndex];    
-            }
-            else
-            {
-                return _position.children[childIndex]; 
-            }
-            return _position;
-        }     
-    };
+        return _position;
+    }     
+    
     return FileProvider;
 }])

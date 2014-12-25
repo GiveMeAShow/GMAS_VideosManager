@@ -1,4 +1,4 @@
-angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileLoaderModule', 'ErrorComputerModule'])
+angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileLoaderModule', 'ErrorComputerModule', 'RulesModule'])
 
     .directive('fileViewer', function($compile) {
         return {
@@ -54,7 +54,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 
     .controller('fileViewerController', ['$scope', '$filter', '$rootScope', 'EVENTS', 'MENUS', 'LocalFileLoader', 'ngTableParams', 'FileProvider', 'ErrorComputer',
     	function($scope, $filter, $rootScope, EVENTS, MENUS, LocalFileLoader, ngTableParams, FileProvider, ErrorComputer) {
-        var FP = new FileProvider();
+        var FP = FileProvider;
         FP.setErrorComputer(ErrorComputer);
 		$scope.serverFiles = [];
 		$scope.localFiles = [];
@@ -147,6 +147,10 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 			$scope.$apply();
 			console.log($scope.files);
 		});
+        
+        $scope.$on(EVENTS.FILES.UPDATED, function(event, file) {
+            $scope.format(FileProvider.getCurrent());
+        })
 
         
 		$scope.tableParams = new ngTableParams({

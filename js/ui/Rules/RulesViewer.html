@@ -16,7 +16,13 @@
         </tr>
         
         <tr>
-            <td data-title="'Rule Name'"><button>+</button></td>
+            <td data-title="'Rule Name'">
+               <div ng-if="!addingRule" >
+                   <!--<button ng-click="newRule()">+</button>-->
+                   <button ng-click="applyR(ruleChooser[0])">+</button>
+               </div>
+               <!--<select ng-model="ruleChooser"></select>-->
+            </td>
             <td data-title="'Definition'"></td>
         </tr>
     </table>
