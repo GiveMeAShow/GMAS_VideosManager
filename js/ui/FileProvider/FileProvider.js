@@ -57,8 +57,11 @@ angular.module("FileProviderModule", [])
             var f = newDir.children[i];
             f.path = f.path.substring(0, f.path.lastIndexOf("\\") + 1) + newDir.name + f.path.substring(f.path.lastIndexOf("\\"));
         }
-        
         _position.children.push(newDir);
+        if (_ErrorComputer)
+        {
+            _ErrorComputer.computeErrors(_files);
+        }
     }
     
     FileProvider.getCurrent = function()
