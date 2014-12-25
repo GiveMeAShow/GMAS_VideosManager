@@ -29,8 +29,12 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
         rule.params[1] = "_";*/
         
         // pour move il faut donner les deu index.. et non pas la longueur
-        rule.name = "movePosition";
+        /*rule.name = "movePosition";
         rule.params = [14, 16, 0];
+        rule.scope = "Files in directory";*/
+        
+        rule.name = "moveInDirectory";
+        rule.params = ['fr'];
         rule.scope = "Files in directory";
         
         if (rule.scope === "Files in directory")
@@ -46,7 +50,7 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
                     f.name = f.name[rule.name](param, rule.params[1]);
                     FileProvider.setFileName(f.name, i);
                 }
-                if (rule.name === "move")
+                else if (rule.name === "move")
                 {
                     var extracted = f.name.substring(rule.params[0], rule.params[1]);
                     f.name = f.name.replace(extracted, "");
@@ -61,6 +65,10 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
                     f.name = extracted + "-" + f.name;
                     console.log("moving ", extracted);
                 }
+                else if (rule.name = "moveInDirectory")
+                {
+                    FileProvider.moveChildrenInNewDir(rule.params[0]);
+                }
                 console.log(f.name);
             }
             
@@ -71,15 +79,19 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
     $scope.ruleChooser = [
         {
             name : "replace",
-            params : ["", ""],
+            params : ["", ""], // strng to replace, act like a replaceAll
             scope : "Files in directory"
         }, {
             name: "move",
-            params: ["", "", ""],
+            params: ["", "", ""], // beginIndex, endIndex and target position
             scope: "Files in directory"
         }, {
             name : "movePosition",
-            params: ["", ""],
+            params: ["", ""], // beginIndex, endIndex of the number
+            scope : "Files in directory"
+        }, {
+            name : "moveInDirectory",
+            params: [""], // new dir name
             scope : "Files in directory"
         }];
         

@@ -32,7 +32,35 @@ angular.module("FileProviderModule", [])
         _files.push(file);
     }
 
-
+    FileProvider.moveChildrenInNewDir = function(directoryName)
+    {
+        // would be easier by copy
+        var newDir = {
+            children : [],
+            type : _position.type,
+            path : _position.path,
+            rules : _position.rules,
+            errors : _position.errors
+        };
+        var f = true;
+        while(f)
+        {
+            var f = _position.children.pop();
+            if(f) newDir.children.push(f);
+        }
+        
+        newDir.name = directoryName;
+        // file.separator ?
+        newDir.path = newDir.path + "\\" + directoryName;
+        for(var i =0; i < newDir.children.length; i++)
+        {
+            var f = newDir.children[i];
+            f.path = f.path.substring(0, f.path.lastIndexOf("\\") + 1) + newDir.name + f.path.substring(f.path.lastIndexOf("\\"));
+        }
+        
+        _position.children.push(newDir);
+    }
+    
     FileProvider.getCurrent = function()
     {
         return _position;
