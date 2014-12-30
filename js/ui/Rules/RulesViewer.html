@@ -10,17 +10,22 @@
         </tr>-->
 
         <tr ng-repeat="rule in $data">
-            <td data-title="'Rule Name'">{{rule}}</td>
-            <td data-title="'Definition'">{{rule}}</td>
+            <td data-title="'Rule Name'">{{rule.name}}</td>
+            <td data-title="'Definition'">{{rule.params}}</td>
         </tr>
         
         <tr>
             <td data-title="'Rule Name'">
                <div ng-if="!addingRule" >
                    <!--<button ng-click="newRule()">+</button>-->
-                   <button ng-click="applyR(ruleChooser[0])">+</button>
+                   <select ng-model="sRule" ng-options="rule as rule.name for rule in rules" ng-change="updateParams(sRule)"></select>
+                   
+                   <button ng-click="applyR()">+</button>
                </div>
                <!--<select ng-model="ruleChooser"></select>-->
+            </td>
+            <td ng-repeat="param in rParams">
+            	<input type="text" ng-model="sParams[$index]" placeholder="{{param}}">
             </td>
             <td data-title="'Definition'"></td>
         </tr>

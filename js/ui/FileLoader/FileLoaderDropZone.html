@@ -13,8 +13,8 @@
 					<td data-title="'Errors'"></td>
 				</tr>
 				
-				<tr ng-repeat="file in $data" ng-click="move($index)" ng-class="{tableRow : true}" ng-mouserightclick="console.log('lol');">
-                        <td data-title="'Name'" sortable="name">{{file.name}}</td>
+				<tr ng-repeat="file in $data" ng-click="move($index);" ng-class="{tableRow : true}" ng-mouseup="activeSelection(file)">
+                        <td data-title="'Name'" sortable="name"> <div >{{file.name}}</div></td>
                         <td data-title="'Type'">{{file.dir}}</td>
                         <td data-title="'Errors'"><div title="{{file.errors}}">{{file.errors.length}}</div></td>
 				</tr>

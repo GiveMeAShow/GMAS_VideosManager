@@ -4,7 +4,8 @@ var app = angular.module("app", ['ngTable', 'CenterViewModule', 'angularTreeview
 		"FILE":{
 			"LOADED" : "file.loaded",
 			"UPLOADED" : "file.uploaded",
-            "CHANGE" : "file.changed"
+            "CHANGE" : "file.changed",
+			"SELECTION" : "file.selection"
 		},
 		"FILES" : {
 			"REPLACE" : "files.replace",

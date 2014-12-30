@@ -31,6 +31,34 @@ angular.module("FileProviderModule", [])
     {
         _files.push(file);
     }
+	
+	FileProvider.addRuleToFile = function(i, rule, params)
+	{
+		var newRule = {};
+		newRule.name = rule.name;
+		newRule.params = [];
+		newRule.scope = rule.scope;
+		for (var j = 0; j < params.length; j++)
+		{
+			newRule.params.push(params[j]);
+		}
+		_position.children[i].rules.push(newRule);
+	}
+	
+	FileProvider.addRuleToCurrentFile = function(rule, params)
+	{
+		
+		console.log("Adding rule ", rule);
+		var newRule = {};
+		newRule.name = rule.name;
+		newRule.params = [];
+		newRule.scope = rule.scope;
+		for (var i = 0; i < params.length; i++)
+		{
+			newRule.params.push(params[i]);
+		}
+		_position.rules.push(newRule);
+	}
 
     FileProvider.moveChildrenInNewDir = function(directoryName)
     {

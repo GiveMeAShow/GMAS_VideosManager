@@ -72,7 +72,6 @@ angular.module("ErrorComputerModule", [])
                             var langFile = seasonFile.children[k];
                             _clean(langFile);
                             var lang = langFile.name;
-                            console.log(lang);
                             if (lang === langs[0]) // test si on a trouvé la langue
                             {
                                 langFound = true;

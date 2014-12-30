@@ -16,26 +16,83 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 
 .controller("RulesViewerController", ['$scope', '$filter', '$rootScope', 'EVENTS', 'ngTableParams', 'FileProvider',
     function($scope, $filter, $rootScope, EVENTS, ngTableParams, FileProvider) {
-    
+	$scope.rules = [
+	{
+		name : "replace",
+		params : ["To replace (regex)", "Replace by"], // strng to replace, act like a replaceAll
+		scope : "Files in directory"
+	}, {
+		name: "moveChars",
+		params: ["Begin index", "End index", "Target index position"], // beginIndex, endIndex and target position
+		scope: "Files in directory"
+	}, {
+		name : "movePosition",
+		params: ["Begin index", "End index"], // beginIndex, endIndex of the number
+		scope : "Files in directory"
+	}, {
+		name : "moveInDirectory",
+		params: ["New directory name"], // new dir name
+		scope : "Files in directory"
+	}];
+    $scope.sRule = $scope.rules[0];
+	$scope.sParams = [];
+	$scope.rParams = [];
     $scope.currentFile = {};
     $scope.currentFile.rules = [];
     $scope.rulesFilters = {"replaceAll" : function(from, to) {
         
-    }}    
+    }}
+	
+	
+	
+	$scope.$on(EVENTS.FILE.SELECTION, function(event, selectObj) {
+		console.log($scope.rParams);
+		if ($scope.rParams.length >= 2)
+		{
+			if ($scope.sRule.name == "replace")
+			{
+				$scope.sParams[0] = selectObj.text;
+			}
+			else
+				
+			{
+					$scope.sParams[0] = selectObj.beginIndex;
+					$scope.sParams[1] = selectObj.endIndex;
+			}
+		}
+	})
+	
+
+	$scope.updateParams = function(rule)
+	{
+		$scope.sRule = rule;
+		while($scope.rParams.length > 0) {
+    			$scope.rParams.pop();
+			}
+		for (var i = 0; i < rule.params.length; i++)
+			
+		{
+			$scope.rParams.push(rule.params[i]);
+		}
+		console.log($scope.rParams);
+		console.log(rule);
+	}
+	/*$scope.watch("sRule", function(oldoBj, newObj) {
+		while($scope.params.length > 0) {
+    			$scope.params.pop();
+			}
+		for (var i = 0; i < $scope.newObj.params.length; i++)
+			
+		{
+			$scope.params.push($scope.params.newObj[i]);
+		}
+	});*/
+	
     
-    $scope.applyR = function(rule) {
-        // utiliser le ng-model=rule.params[0] ec.. pour les rajouter (maybe...)
-        /*rule.params[0] = " |QC|Saison 2|-";
-        rule.params[1] = "_";*/
-        
-        // pour move il faut donner les deu index.. et non pas la longueur
-        /*rule.name = "movePosition";
-        rule.params = [14, 16, 0];
-        rule.scope = "Files in directory";*/
-        
-        rule.name = "moveInDirectory";
-        rule.params = ['fr'];
-        rule.scope = "Files in directory";
+    $scope.applyR = function() {
+		console.log("Applying", $scope.sRule);
+		console.log("With params", $scope.sParams);
+		var rule = $scope.sRule;
         
         if (rule.scope === "Files in directory")
         {
@@ -46,61 +103,51 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
                 var f = currentDir.children[i];
                 if (rule.name === "replace")
                 {
-                    var param = new RegExp(rule.params[0], 'g');
-                    f.name = f.name[rule.name](param, rule.params[1]);
+                    var param = new RegExp($scope.sParams[0], 'g');
+                    f.name = f.name[rule.name](param, $scope.sParams[1]);
                     FileProvider.setFileName(f.name, i);
+					FileProvider.addRuleToFile(i, rule, $scope.sParams);
                 }
-                else if (rule.name === "move")
+                else if (rule.name === "moveChars")
                 {
-                    var extracted = f.name.substring(rule.params[0], rule.params[1]);
+                    var extracted = f.name.substring($scope.sParams[0], rule.params[1]);
                     f.name = f.name.replace(extracted, "");
-                    f.name = f.name.substring(0, rule.params[2]) +
-                        extracted + f.name.substring(rule.params[2]);
-                    console.log("moving ", extracted);
+                    f.name = f.name.substring(0, $scope.sParams[2]) +
+                        extracted + f.name.substring($scope.sParams[2]);
+                    console.log("moving chars ", extracted);
+					FileProvider.addRuleToFile(i, rule, $scope.sParams);
                 }
                 else if (rule.name === "movePosition")
                 {
-                    var extracted = f.name.substring(rule.params[0], rule.params[1]);
+                    var extracted = f.name.substring($scope.sParams[0], $scope.sParams[1]);
                     f.name = f.name.replace(extracted, "");
                     f.name = extracted + "-" + f.name;
                     console.log("moving ", extracted);
+					FileProvider.addRuleToFile(i, rule, $scope.sParams);
                 }
                 else if (rule.name = "moveInDirectory")
                 {
-                    FileProvider.moveChildrenInNewDir(rule.params[0]);
+                    FileProvider.moveChildrenInNewDir($scope.sParams[0]);
                 }
-                console.log(f.name);
             }
+			FileProvider.addRuleToCurrentFile(rule, $scope.sParams);
             
         }
-        $rootScope.$broadcast(EVENTS.FILES.UPDATED);
+		//$scope.sParams = [];
+		$scope.tableParams.reload();
+        $rootScope.$broadcast(EVENTS.FILES.UPDATED, FileProvider.getCurrent());
     }
-    
-    $scope.ruleChooser = [
-        {
-            name : "replace",
-            params : ["", ""], // strng to replace, act like a replaceAll
-            scope : "Files in directory"
-        }, {
-            name: "move",
-            params: ["", "", ""], // beginIndex, endIndex and target position
-            scope: "Files in directory"
-        }, {
-            name : "movePosition",
-            params: ["", ""], // beginIndex, endIndex of the number
-            scope : "Files in directory"
-        }, {
-            name : "moveInDirectory",
-            params: [""], // new dir name
-            scope : "Files in directory"
-        }];
+	
+     $scope.$on(EVENTS.FILES.UPDATED, function(event, file) {
+            $scope.currentFile = file;
+       		$scope.tableParams.reload();
+        })
         
         
-    $rootScope.$on(EVENTS.FILE.CHANGE, function(event, file) {
+    $scope.$on(EVENTS.FILE.CHANGE, function(event, file) {
        $scope.currentFile = file;
        $scope.tableParams.reload(); 
     });
-        
         
     $scope.tableParams = new ngTableParams({
 			page: 1,            // show first page

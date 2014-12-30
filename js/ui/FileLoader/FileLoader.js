@@ -19,6 +19,9 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 					return false;
 				});
 				
+				
+				
+				
 				var ondragleave = function() {
 					scope.loaderOver = false;
 					scope.$apply();
@@ -84,6 +87,28 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
             }
             $rootScope.$broadcast(EVENTS.FILE.CHANGE, f);
 		}
+		
+		$scope.activeSelection = function(file)
+	{
+		if (!file.dir && window.getSelection) { // moz, opera, webkit
+			var selection = window.getSelection();
+			if (selection.rangeCount)
+			{
+				var rangeAt = selection.getRangeAt(0);
+				var selectObj = {};
+				selectObj.text = rangeAt.commonAncestorContainer.data.substring(rangeAt.startOffset, rangeAt.endOffset);
+				selectObj.beginIndex = rangeAt.startOffset;
+				selectObj.endIndex = rangeAt.endOffset;
+				$rootScope.$broadcast(EVENTS.FILE.SELECTION, selectObj);
+			}
+			/*console.log(selection);*/
+			/*
+			var range = document.createRange();
+			range.extractContents();
+			selection.removeAllRanges();
+			selection.addRange(range);*/
+		}
+	}
         
         $scope.format = function (dir)
         {
