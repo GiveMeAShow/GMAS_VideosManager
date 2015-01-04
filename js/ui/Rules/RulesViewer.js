@@ -49,10 +49,9 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 				$scope.sParams[0] = selectObj.text;
 			}
 			else
-				
 			{
-					$scope.sParams[0] = selectObj.beginIndex;
-					$scope.sParams[1] = selectObj.endIndex;
+				$scope.sParams[0] = selectObj.beginIndex;
+				$scope.sParams[1] = selectObj.endIndex;
 			}
 		}
 	})
@@ -70,7 +69,6 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 			$scope.rParams.push(rule.params[i]);
 		}
 		console.log($scope.rParams);
-		console.log(rule);
 	}
 	/*$scope.watch("sRule", function(oldoBj, newObj) {
 		while($scope.params.length > 0) {
@@ -95,34 +93,37 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
             for (var i = 0; i < currentDir.children.length; i++)
             {
                 var f = currentDir.children[i];
-                if (rule.name === "replace")
-                {
-                    var param = new RegExp($scope.sParams[0], 'g');
-                    f.name = f.name[rule.name](param, $scope.sParams[1]);
-                    FileProvider.setFileName(f.name, i);
-					FileProvider.addRuleToFile(i, rule, $scope.sParams);
-                }
-                else if (rule.name === "moveChars")
-                {
-                    var extracted = f.name.substring($scope.sParams[0], rule.params[1]);
-                    f.name = f.name.replace(extracted, "");
-                    f.name = f.name.substring(0, $scope.sParams[2]) +
-                        extracted + f.name.substring($scope.sParams[2]);
-                    console.log("moving chars ", extracted);
-					FileProvider.addRuleToFile(i, rule, $scope.sParams);
-                }
-                else if (rule.name === "movePosition")
-                {
-                    var extracted = f.name.substring($scope.sParams[0], $scope.sParams[1]);
-                    f.name = f.name.replace(extracted, "");
-                    f.name = extracted + "-" + f.name;
-                    console.log("moving ", extracted);
-					FileProvider.addRuleToFile(i, rule, $scope.sParams);
-                }
-                else if (rule.name = "moveInDirectory")
-                {
-                    FileProvider.moveChildrenInNewDir($scope.sParams[0]);
-                }
+				if (f.selected)
+				{
+					if (rule.name === "replace")
+					{
+						var param = new RegExp($scope.sParams[0], 'g');
+						f.name = f.name[rule.name](param, $scope.sParams[1]);
+						FileProvider.setFileName(f.name, i);
+						FileProvider.addRuleToFile(i, rule, $scope.sParams);
+					}
+					else if (rule.name === "moveChars")
+					{
+						var extracted = f.name.substring($scope.sParams[0], rule.params[1]);
+						f.name = f.name.replace(extracted, "");
+						f.name = f.name.substring(0, $scope.sParams[2]) +
+							extracted + f.name.substring($scope.sParams[2]);
+						console.log("moving chars ", extracted);
+						FileProvider.addRuleToFile(i, rule, $scope.sParams);
+					}
+					else if (rule.name === "movePosition")
+					{
+						var extracted = f.name.substring($scope.sParams[0], $scope.sParams[1]);
+						f.name = f.name.replace(extracted, "");
+						f.name = extracted + "-" + f.name;
+						console.log("moving ", extracted);
+						FileProvider.addRuleToFile(i, rule, $scope.sParams);
+					}
+					else if (rule.name = "moveInDirectory")
+					{
+						FileProvider.moveChildrenInNewDir($scope.sParams[0]);
+					}
+				}
             }
 			FileProvider.addRuleToCurrentFile(rule, $scope.sParams);
             

@@ -70,21 +70,28 @@ angular.module("FileProviderModule", [])
             rules : _position.rules,
             errors : _position.errors
         };
-        var f = true;
-        while(f)
-        {
-            var f = _position.children.pop();
-            if(f) newDir.children.push(f);
-        }
-        
+		
+		for (var i =0; i < _position.children.length; i++)
+		{
+			var file = _position.children[i];
+			if (file.selected)
+			{
+				newDir.children.push(file);
+				_position.children.splice(i, 1);
+			}
+		}
+        console.log(newDir);
+		
         newDir.name = directoryName;
         // file.separator ?
         newDir.path = newDir.path + "\\" + directoryName;
+		
         for(var i =0; i < newDir.children.length; i++)
         {
-            var f = newDir.children[i];
-            f.path = f.path.substring(0, f.path.lastIndexOf("\\") + 1) + newDir.name + f.path.substring(f.path.lastIndexOf("\\"));
+			_visitChildren(newDir.children[i], _moveIntoDirectory, newDir)
         }
+		
+		console.log(newDir);
         _position.children.push(newDir);
         if (_ErrorComputer)
         {
@@ -92,14 +99,27 @@ angular.module("FileProviderModule", [])
         }
     }
 	
-	var _visitChildren = function(dir, executeOnEach)
+	var _moveIntoDirectory = function(file, newDir) {
+		//file.path = file.path.substring(0, file.path.lastIndexOf("\\") + 1) + newDir.name + file.path.substring(file.path.lastIndexOf("\\"));
+		//file.path = file.path.substring(0, file.path.lastIndexOf("\\") + 1) + newDir.name + file.path.substring(file.path.lastIndexOf("\\"));
+		if (file.type === "DIRECTORY")
+		{
+			for (var i = 0; i < file.children.length; i++)
+			{
+				var f = file.children[i];
+				f.path = file.path + "/" + f.name;
+			}
+		}
+	}
+	
+	var _visitChildren = function(dir, executeOnEach, param)
 	{
-		executeOnEach(dir);
+		executeOnEach(dir, param);
 		if (dir.type === "DIRECTORY")
 		{
 			for (var i = 0;i < dir.children.length; i ++)
 			{
-				_visitChildren(dir.children[i], executeOnEach);
+				_visitChildren(dir.children[i], executeOnEach, param);
 			}
 		}
 	}

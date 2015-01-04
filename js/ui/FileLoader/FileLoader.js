@@ -197,9 +197,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 			total: function () { return getData().length; }, // length of data
 			getData: function($defer, params) {
 				var filteredData = $scope.localFilesVisible;
-				var orderedData = params.sorting() ?
-									$filter('orderBy')(filteredData, params.orderBy()) :
-									filteredData;
+				var orderedData = $scope.localFilesVisible;
 				params.total($scope.localFilesVisible.length);
 				if (orderedData.length <= params.count())
 				{
