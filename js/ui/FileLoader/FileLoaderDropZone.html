@@ -6,17 +6,28 @@
 		</div>
 		<div ng-hide="localEmpty">
 			<table ng-table="tableParams" class="table">
-				<tr ng-click="moveBack()" ng-class="{tableRow : true}"
+				<tr ng-class="{tableRow : true}"
 					ng-if="!isRoot">
-					<td data-title="'Name'" sortable="name">...</td>
-					<td data-title="'Type'">true</td>
-					<td data-title="'Errors'"></td>
+					<td data-title="'Select'" width="25px;">
+						<input type="checkbox" ng-model="parentFile.selected" ng-click="selectAll()">
+					</td>
+					<td data-title="'Name'" sortable="name" ng-click="moveBack()" >...</td>
+					<td data-title="'Type'" ng-click="moveBack()" >true</td>
+					<td data-title="'Errors'" ng-click="moveBack()" ></td>
 				</tr>
 				
-				<tr ng-repeat="file in $data" ng-click="move($index);" ng-class="{tableRow : true}" ng-mouseup="activeSelection(file)">
-                        <td data-title="'Name'" sortable="name"> <div >{{file.name}}</div></td>
-                        <td data-title="'Type'">{{file.dir}}</td>
-                        <td data-title="'Errors'"><div title="{{file.errors}}">{{file.errors.length}}</div></td>
+				<tr ng-repeat="file in $data"  ng-class="{tableRow : true}" ng-mouseup="activeSelection(file)">
+
+                    <td data-title="'Select'" width="25px;" >
+                    	<input type="checkbox" ng-click="select($index)" ng-model="file.selected">
+                    </td>
+					<td data-title="'Name'"   ng-click="move($index);" sortable="name">
+						<div>{{file.name}}</div>
+					</td>
+					<td data-title="'Type'"  ng-click="move($index);" >
+						{{file.dir}}
+					</td>
+					<td data-title="'Errors'" ng-click="move($index);"><div title="{{file.errors}}">{{file.errors.length}}</div></td>
 				</tr>
 			</table>
 		</div>

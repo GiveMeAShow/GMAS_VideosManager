@@ -56,13 +56,29 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 		$scope.localFiles = [];
 		$scope.localRoot = "";
 		$scope.localEmpty =  true;
+		$scope.parentFile = {};
+		$scope.visited = [];
 			
 		$scope.loadFiles = function (files) {
 			LocalFileLoader.loadFiles(files, $scope.files);
         }
 		
-		$scope.parentFile = {};
-		$scope.visited = [];
+		$scope.selectAll = function()
+		{
+			for (var i = 0; i < $scope.localFilesVisible.length; i++)
+			{
+				$scope.localFilesVisible[i].selected = $scope.parentFile.selected;
+				FileProvider.selectAll($scope.parentFile.selected);
+				
+				//FileProvider.selectChild(i, $scope.parentFile.selected);
+			}
+		}
+		
+		$scope.select = function(index)
+		{
+			FileProvider.select(index, $scope.localFilesVisible[index].selected);
+		}
+		
             
         $scope.moveBack = function()
         {
@@ -74,7 +90,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 		$scope.move = function(childIndex)
 		{
             var f = FP.move(childIndex);
-            if(f.children)
+            if (f.children)
             {
                 $scope.format(f);
             }
@@ -82,26 +98,26 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 		}
 		
 		$scope.activeSelection = function(file)
-	{
-		if (!file.dir && window.getSelection) { // moz, opera, webkit
-			var selection = window.getSelection();
-			if (selection.rangeCount)
-			{
-				var rangeAt = selection.getRangeAt(0);
-				var selectObj = {};
-				selectObj.text = rangeAt.commonAncestorContainer.data.substring(rangeAt.startOffset, rangeAt.endOffset);
-				selectObj.beginIndex = rangeAt.startOffset;
-				selectObj.endIndex = rangeAt.endOffset;
-				$rootScope.$broadcast(EVENTS.FILE.SELECTION, selectObj);
+		{
+			if (!file.dir && window.getSelection) { // moz, opera, webkit
+				var selection = window.getSelection();
+				if (selection.rangeCount)
+				{
+					var rangeAt = selection.getRangeAt(0);
+					var selectObj = {};
+					selectObj.text = rangeAt.commonAncestorContainer.data.substring(rangeAt.startOffset, rangeAt.endOffset);
+					selectObj.beginIndex = rangeAt.startOffset;
+					selectObj.endIndex = rangeAt.endOffset;
+					$rootScope.$broadcast(EVENTS.FILE.SELECTION, selectObj);
+				}
+				/*console.log(selection);*/
+				/*
+				var range = document.createRange();
+				range.extractContents();
+				selection.removeAllRanges();
+				selection.addRange(range);*/
 			}
-			/*console.log(selection);*/
-			/*
-			var range = document.createRange();
-			range.extractContents();
-			selection.removeAllRanges();
-			selection.addRange(range);*/
 		}
-	}
         
         $scope.format = function (dir)
         {
@@ -125,7 +141,7 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 				f.name = dir.children[i].name;
 				f.path = dir.children[i].path;
                 f.errors = dir.children[i].errors;
-				f.selected = false;
+				f.selected = dir.children[i].selected;
 				if(dir.children[i].children)
 				{
 					f.children = dir.children[i].children;

@@ -91,6 +91,32 @@ angular.module("FileProviderModule", [])
             _ErrorComputer.computeErrors(_files);
         }
     }
+	
+	var _visitChildren = function(dir, executeOnEach)
+	{
+		executeOnEach(dir);
+		if (dir.type === "DIRECTORY")
+		{
+			for (var i = 0;i < dir.children.length; i ++)
+			{
+				_visitChildren(dir.children[i], executeOnEach);
+			}
+		}
+	}
+	
+	FileProvider.selectAll = function(value)
+	{
+		_visitChildren(_position, function(file) {
+			file.selected = value;
+		})
+	}
+	
+	FileProvider.select = function(index, value)
+	{
+		_visitChildren(_position.children[index], function(file) {
+			file.selected = value;
+		})
+	}
     
 	FileProvider.getFiles = function() { return _files }; 
 	
