@@ -92,10 +92,9 @@ angular.module("FileProviderModule", [])
         }
     }
     
-    FileProvider.getCurrent = function()
-    {
-        return _position;
-    }
+	FileProvider.getFiles = function() { return _files }; 
+	
+    FileProvider.getCurrent = function() { return _position };
 
     FileProvider.moveBack = function()
     {

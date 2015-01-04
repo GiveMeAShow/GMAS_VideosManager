@@ -1,15 +1,16 @@
 {
   "name": "givemeashow",
-	"main": "index.html",
-	"window": {
+  "main": "index.html",
+  "window": {
     "toolbar": true,
-    "frame" : true
+    "frame": true
   },
   "version": "0.0.0",
   "dependencies": {
     "aws-sdk": "^2.1.2",
-	 "simplecrawler": "^0.3.6",
-    "file": "^0.2.2"
+    "simplecrawler": "^0.3.6",
+    "file": "^0.2.2",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

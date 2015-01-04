@@ -20,8 +20,6 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 				});
 				
 				
-				
-				
 				var ondragleave = function() {
 					scope.loaderOver = false;
 					scope.$apply();
@@ -45,11 +43,6 @@ angular.module("FileViewerModule", ['ngTable', 'FileProviderModule', 'LocalFileL
 					scope.message = "";
 					ondragleave();
 				});
-
-				var ondrop = function(e) {
-					
-
-				}
         },
         templateUrl: 'js/ui/FileLoader/FileLoaderDropZone.html'
       };

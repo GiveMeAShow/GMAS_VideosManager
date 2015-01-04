@@ -80,7 +80,7 @@ angular.module("LocalFileLoaderModule", [])
                 info = {
                     path: filename,
                     name: self.pathModule.basename(filename),
-                    oldName: name,
+                    oldName: self.pathModule.basename(filename),
                     errors : [],
                     rules : []
                 };

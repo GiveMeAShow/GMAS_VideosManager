@@ -39,11 +39,6 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 	$scope.rParams = [];
     $scope.currentFile = {};
     $scope.currentFile.rules = [];
-    $scope.rulesFilters = {"replaceAll" : function(from, to) {
-        
-    }}
-	
-	
 	
 	$scope.$on(EVENTS.FILE.SELECTION, function(event, selectObj) {
 		console.log($scope.rParams);
@@ -87,8 +82,7 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 			$scope.params.push($scope.params.newObj[i]);
 		}
 	});*/
-	
-    
+
     $scope.applyR = function() {
 		console.log("Applying", $scope.sRule);
 		console.log("With params", $scope.sParams);
