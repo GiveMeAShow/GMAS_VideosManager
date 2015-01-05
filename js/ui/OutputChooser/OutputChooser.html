@@ -1,4 +1,8 @@
 <div class="topRight">
-	<input type="text" ng-model="outputPath" placeholder="Output directory path">
-	<button ng-click="startCopy();">Start</button>
+	<input ng-hide="copying" type="text" ng-model="outputPath" placeholder="Output directory path">
+	<button ng-hide="copying" ng-click="startCopy();">Start</button>
+	<button ng-hide="!copying" ng-click="cancelCopy = true">Stop</button>
+	<progressbar ng-hide="!copying" value="(processed * 100) / max" 
+		max="100" class="progress-striped active">{{processed}} / {{max}}</progressbar>
+	
 </div>

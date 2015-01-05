@@ -5,7 +5,7 @@ angular.module("FileProviderModule", [])
     
     var _ErrorComputer;
 
-    var _files = {};
+    var _files = [];
     var _position = {};
 
     var _visited = [];

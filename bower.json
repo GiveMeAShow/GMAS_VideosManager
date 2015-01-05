@@ -27,6 +27,8 @@
     "gsap": "~1.14.2",
     "angularjs-toaster": "~0.4.9",
     "ng-table": "~0.3.3",
-    "angular-treeview": "*"
+    "angular-treeview": "*",
+    "angular-ui": "~0.4.0",
+    "angular-ui-bootstrap": "~0.12.0"
   }
 }

@@ -1,4 +1,4 @@
-angular.module("OutputChooserModule", ['FileProviderModule'])
+angular.module("OutputChooserModule", ['FileProviderModule', 'ui.bootstrap'])
 
 .directive("outputChooser", [function() {
 	return {
@@ -32,46 +32,65 @@ angular.module("OutputChooserModule", ['FileProviderModule'])
 		
 	$scope.startCopy = function()
 	{
-		var file = FileProvider.getFiles();
-		
-		self.mkdirp($scope.outputPath, function(err) {
-				console.log("Cannot create directory or directory exists.");
-		});
-		
-		$scope.copy(file, $scope.outputPath);
-		
-		/*var cbCalled = false;
+		if ($scope.outputPath != "")
+		{
+			var file = FileProvider.getFiles();
 
-		var rd = fs.createReadStream(source);
-			rd.on("error", function(err) {
-			done(err);
-		});
-		
-		var wr = self.fileSystem.createWriteStream(target);
-			wr.on("error", function(err) {
-			done(err);
-		});
-		
-		wr.on("close", function(ex) {
-			done();
-		});
-		
-		rd.pipe(wr);
+			self.mkdirp($scope.outputPath, function(err) {
+					console.log("Cannot create directory or directory exists.");
+			});
 
-		function done(err) {
-			if (!cbCalled) {
-			  cb(err);
-			  cbCalled = true;
+			$scope.copy(file, $scope.outputPath);
+			$scope.max = $scope.pairs.length;
+			$scope.processCopy();
+
+
+			console.log(file);
+		}
+	}
+	
+	$scope.pairs = [];
+	$scope.copying = false;
+	$scope.processed = 0;
+	$scope.max = 0;
+	
+	$scope.cancelCopy = false;
+		
+	$scope.processCopy = function()
+	{
+		var pair = $scope.pairs.pop();
+		if (pair && !$scope.cancelCopy)
+		{
+			$scope.copying = true;
+			var rd = self.fileSystem.createReadStream(pair.src);
+			var wr = self.fileSystem.createWriteStream(pair.dest);
+			console.log("copying " + pair.src + "/" + pair.dest);
+			wr.on("close", function() {
+				console.log("File ", pair.src, " copied to ", pair.dest);
+				$scope.processed = $scope.processed + 1;
+				$scope.$apply();
+				$scope.processCopy();
+				
+			});
+			rd.pipe(wr);
+		}
+		else
+		{
+			console.log("Copy ended");
+			$scope.copying = false;
+			$scope.max = 0;
+			$scope.processed = 0;
+			$scope.cancelCopy = false;
+			while($scope.pairs.length > 0)
+			{
+				$scope.pairs.pop();
 			}
-		}*/
-		
-		
-		console.log(file);
+			
+		}
 	}
 	
 	$scope.copy = function(file, parentPath)
 	{
-		console.log("copying " + parentPath + "/" +file.name);
 		var outputName = parentPath + "/" + file.name;
 		
 		if (file.type === "DIRECTORY")
@@ -86,23 +105,8 @@ angular.module("OutputChooserModule", ['FileProviderModule'])
 		}
 		else
 		{
-			var rd = self.fileSystem.createReadStream(file.path);
-
-			rd.on("error", function(err) {
-					console.log(err);
-			});
-
-			var wr = self.fileSystem.createWriteStream(outputName);
-
-			wr.on("error", function(err) {
-				console.log(err);
-			});
-
-			wr.on("close", function(ex) {
-
-			});
-
-			rd.pipe(wr);
+			$scope.pairs.push({"src" : file.path, "dest" : outputName});
+			$scope.nbToProcess = $scope.nbToProcess + 1;
 		}
 	}
 	var self = this;
