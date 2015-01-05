@@ -20,18 +20,22 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 	{
 		name : "replace",
 		params : ["To replace (regex)", "Replace by"], // strng to replace, act like a replaceAll
+		placeholders : ["To replace (regex)", "Replace by"],
 		scope : "Files in directory"
 	}, {
 		name: "moveChars",
 		params: ["Begin index", "End index", "Target index position"], // beginIndex, endIndex and target position
+		placeholders : ["Begin index", "End index", "Target index position"],
 		scope: "Files in directory"
 	}, {
 		name : "movePosition",
 		params: ["Begin index", "End index"], // beginIndex, endIndex of the number
+		placeholders : ["Begin index", "End index"],
 		scope : "Files in directory"
 	}, {
 		name : "moveInDirectory",
 		params: ["New directory name"], // new dir name
+		placeholders : ["New directory name"],
 		scope : "Files in directory"
 	}];
     $scope.sRule = $scope.rules[0];
@@ -64,8 +68,8 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
     			$scope.rParams.pop();
 			}
 		for (var i = 0; i < rule.params.length; i++)
-			
 		{
+			$scope.sParams[i] = "";
 			$scope.rParams.push(rule.params[i]);
 		}
 		console.log($scope.rParams);
@@ -128,6 +132,7 @@ angular.module("RulesModule", ['ngTable', 'FileProviderModule'])
 			FileProvider.addRuleToCurrentFile(rule, $scope.sParams);
             
         }
+		
 		//$scope.sParams = [];
 		$scope.tableParams.reload();
         $rootScope.$broadcast(EVENTS.FILES.UPDATED, FileProvider.getCurrent());
